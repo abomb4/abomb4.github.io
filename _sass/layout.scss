@@ -212,6 +212,9 @@
     width: 30%;
     min-width: 200px;
     max-width: 290px;
+    h1 {
+      margin-bottom: 0.5rem;
+    }
 
     .side-container {
       /* Side may have multiple content blocks */
@@ -301,4 +304,17 @@
 #markdown-toc > li li li > a {
   padding: 3px 0px 3px 20px;
   font-size: 80%;
+}
+
+.post-header {
+  .meta {
+    margin-top: 0.5rem;
+    color: $color-gray;
+  }
+}
+.post-content {
+  line-height: 1.8rem;
+}
+.post-footer {
+  margin-top: 3rem;
 }
