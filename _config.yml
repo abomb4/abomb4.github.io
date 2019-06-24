@@ -23,7 +23,6 @@ sass:
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 
 github_username: abomb4
-# highlighter: Pygments
 highlighter: rouge
 
 # serve
