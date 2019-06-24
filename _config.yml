@@ -17,6 +17,8 @@ plugins: [jekyll-paginate]
 permalink: /:year/:month/:day/:title/
 paginate: 10
 excerpt_separator: <!--more-->
+sass:
+  style: compressed
 
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 

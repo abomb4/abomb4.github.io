@@ -395,5 +395,5 @@ public class ApplicationConfiguration extends AsyncConfigurerSupport {
 
 --------------------------------
 
-即时看完该教程，对 `Spring Security` 也不能说是了解了，必须在实际应用，或 Demo 中进行使用，才可能更加了解。
+即使看完该教程，对 `Spring Security` 也不能说是了解了，必须在实际应用，或 Demo 中进行使用，才可能更加了解。
 比如对接自定义的权限系统、对接自定义认证系统等、实现短信验证码或 email 登录等。

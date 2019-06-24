@@ -1,5 +1,6 @@
 
 @import "./_variables.scss";
-@import "./reset.scss";
+@import "./global.scss";
 @import "./layout.scss";
-@import "./theme_dark.scss";
+@import "./post.scss";
+@import "./_syntax-highlighting.scss";

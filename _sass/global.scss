@@ -1,0 +1,25 @@
+// Basic CSS Rules affects global html tags
+html, body {
+  font-size: 14px;
+  height: 100%;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+* { box-sizing: border-box; }
+body,
+div, p,
+ul, button,
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+pre { margin-block: 0; }
+ul { list-style: none; }
+a { color: $fg; text-decoration: none; }
+img { max-width: 100%; }
+button {
+  background-color: #fff;
+  padding-inline: 0;
+  border: 1px solid grey;
+  line-height: inherit;
+}
