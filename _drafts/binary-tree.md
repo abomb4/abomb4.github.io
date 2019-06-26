@@ -71,16 +71,16 @@ tag: 数据结构
 为了实用性，本篇目标是实现类似 HashMap 功能的 KV 存储树。
 ```rust
 trait BinaryTree<K, V> {
-    fn get<'a>(&'a self, key: K) -> &'a V;
+    fn get<'a>(&'a self, key: K) -> Option<&'a V>;
     fn contains(&self, key: K) -> bool;
     fn insert(&mut self, key: K, value: V) -> Option<V>;
     fn delete(&mut self, key: K) -> Option<V>;
     fn is_empty(&self) -> bool;
-    /** 先序遍历 */
+    /** 先(前)序遍历，根左右 */
     fn iterate_first_mut(&mut self, runner: &dyn Fn(K, &mut V));
-    /** 中序遍历 */
+    /** 中序遍历，左根右 */
     fn iterate_middle_mut(&mut self, runner: &dyn Fn(K, &mut V));
-    /** 后序遍历 */
+    /** 后序遍历，左右根 */
     fn iterate_last_mut(&mut self, runner: &dyn Fn(K, &mut V));
     /** 按层次遍历 */
     fn iterate_layer_mut(&mut self, runner: &dyn Fn(K, &mut V));
@@ -101,6 +101,22 @@ trait BinaryTree<K, V> {
 但普通的二叉搜索树可能会退化成链表，导致效率变回 O(n)。
 
 ### 关键操作逻辑
+
+**插入**：
+1. 先搜索要插入的数据
+2. 若存在，则覆盖
+3. 若不存在，记录最后寻找的节点，比他大放左边，比他小放右边
+
+**搜索**：
+
+**删除**：
+
+**前序遍历**：
+
+**中序遍历**：
+
+**后序遍历**：
+
 
 ### 代码实现
 

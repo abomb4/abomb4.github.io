@@ -1,0 +1,103 @@
+
+trait BinaryTree<K: PartialOrd, V> {
+    fn get<'a>(&'a self, key: K) -> Option<&'a V>;
+    fn contains(&self, key: K) -> bool;
+    fn insert(&mut self, key: K, value: V) -> Option<V>;
+    fn delete(&mut self, key: K) -> Option<V>;
+    fn is_empty(&self) -> bool;
+    /** 先(前)序遍历，根左右 */
+    fn iterate_first_mut(&mut self, runner: &dyn Fn(K, &mut V));
+    /** 中序遍历，左根右 */
+    fn iterate_middle_mut(&mut self, runner: &dyn Fn(K, &mut V));
+    /** 后序遍历，左右根 */
+    fn iterate_last_mut(&mut self, runner: &dyn Fn(K, &mut V));
+    /** 按层次遍历 */
+    fn iterate_layer_mut(&mut self, runner: &dyn Fn(K, &mut V));
+}
+
+struct SimpleBinarySearchTreeNode<K: PartialOrd, V> {
+    key: K,
+    value: V,
+    left_node: Option<Box<SimpleBinarySearchTreeNode<K, V>>>,
+    right_node: Option<Box<SimpleBinarySearchTreeNode<K, V>>>,
+}
+
+macro_rules! three_match {
+    ($slf:ident, $key:ident, $eq:expr, $lt:expr, $gt:expr) => {
+        if $slf.key == $key {
+            $eq
+        } else if $key < $slf.key {
+            $lt
+        } else {
+            $gt
+        }
+    };
+}
+
+impl<K: PartialOrd, V> BinaryTree<K, V> for SimpleBinarySearchTreeNode<K, V> {
+    fn get<'a>(&'a self, key: K) -> Option<&'a V> {
+        three_match!(
+            self,
+            key,
+            Some(&self.value),
+            self.left_node.map_or(None, |node| { node.get(key) }),
+            self.right_node.map_or(None, |node| { node.get(key) })
+        )
+    }
+    fn contains(&self, key: K) -> bool {
+        three_match!(
+            self,
+            key,
+            true,
+            self.left_node.map_or(false, |node| { node.contains(key) }),
+            self.right_node.map_or(false, |node| { node.contains(key) })
+        )
+    }
+    fn insert(&mut self, key: K, value: V) -> Option<V> {
+        if self.key == key {
+
+        }
+    }
+    fn delete(&mut self, key: K) -> Option<V> {
+        if self.key == key {
+
+        }
+    }
+    fn is_empty(&self) -> bool {
+        if self.key == key {
+
+        }
+    }
+    /** 先(前)序遍历，根左右 */
+    fn iterate_first_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+        if self.key == key {
+
+        }
+    }
+    /** 中序遍历，左根右 */
+    fn iterate_middle_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+        if self.key == key {
+
+        }
+    }
+    /** 后序遍历，左右根 */
+    fn iterate_last_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+        if self.key == key {
+
+        }
+    }
+    /** 按层次遍历 */
+    fn iterate_layer_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+        if self.key == key {
+
+        }
+    }
+}
+
+struct SimpleBinarySearchTree<K, V> {
+    root: Option<SimpleBinarySearchTreeNode<K, V>>
+}
+
+fn main() {
+    println!("Hello, world!");
+}
