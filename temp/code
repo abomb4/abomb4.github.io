@@ -15,13 +15,23 @@ trait BinaryTree<K: PartialOrd, V> {
     fn iterate_layer_mut(&mut self, runner: &dyn Fn(K, &mut V));
 }
 
-struct SimpleBinarySearchTreeNode<K: PartialOrd, V> {
+struct Node<K: PartialOrd, V> {
     key: K,
     value: V,
-    left_node: Option<Box<SimpleBinarySearchTreeNode<K, V>>>,
-    right_node: Option<Box<SimpleBinarySearchTreeNode<K, V>>>,
+    left_node: Option<Box<Node<K, V>>>,
+    right_node: Option<Box<Node<K, V>>>,
 }
 
+impl<K: PartialOrd, V> Node<K, V> {
+    fn new(key: K, value: V) -> Node<K, V> {
+        Node {
+            key,
+            value,
+            left_node: None,
+            right_node: None
+        }
+    }
+}
 macro_rules! three_match {
     ($slf:ident, $key:ident, $eq:expr, $lt:expr, $gt:expr) => {
         if $slf.key == $key {
@@ -34,70 +44,157 @@ macro_rules! three_match {
     };
 }
 
-impl<K: PartialOrd, V> BinaryTree<K, V> for SimpleBinarySearchTreeNode<K, V> {
+impl<K: PartialOrd, V> BinaryTree<K, V> for Node<K, V> {
     fn get<'a>(&'a self, key: K) -> Option<&'a V> {
-        three_match!(
-            self,
-            key,
-            Some(&self.value),
-            self.left_node.map_or(None, |node| { node.get(key) }),
-            self.right_node.map_or(None, |node| { node.get(key) })
-        )
+        if self.key == key {
+            Some(&self.value)
+        } else if key < self.key {
+            match &self.left_node {
+                Some(node) => node.get(key),
+                None => None
+            }
+        } else {
+            match &self.right_node {
+                Some(node) => node.get(key),
+                None => None
+            }
+        }
     }
     fn contains(&self, key: K) -> bool {
         three_match!(
             self,
             key,
             true,
-            self.left_node.map_or(false, |node| { node.contains(key) }),
-            self.right_node.map_or(false, |node| { node.contains(key) })
+            match &self.left_node {
+                Some(node) => node.contains(key),
+                None => false
+            },
+            match &self.right_node {
+                Some(node) => node.contains(key),
+                None => false
+            }
         )
     }
     fn insert(&mut self, key: K, value: V) -> Option<V> {
         if self.key == key {
-
+            Some(std::mem::replace(&mut self.value, value))
+        } else if key < self.key {
+            match &mut self.left_node {
+                Some(node) => node.insert(key, value),
+                None => {
+                    self.left_node = Some(Box::new(Self::new(key, value)));
+                    None
+                }
+            }
+        } else {
+            match &mut self.right_node {
+                Some(node) => node.insert(key, value),
+                None => {
+                    self.right_node = Some(Box::new(Self::new(key, value)));
+                    None
+                }
+            }
         }
     }
     fn delete(&mut self, key: K) -> Option<V> {
-        if self.key == key {
+        unimplemented!()
+    }
+    fn is_empty(&self) -> bool {
+        false
+    }
+    /** 先(前)序遍历，根左右 */
+    fn iterate_first_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+    }
+    /** 中序遍历，左根右 */
+    fn iterate_middle_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+    }
+    /** 后序遍历，左右根 */
+    fn iterate_last_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+    }
+    /** 按层次遍历 */
+    fn iterate_layer_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
+    }
+}
 
+struct Tree<K: PartialOrd, V> {
+    root: Option<Node<K, V>>
+}
+
+impl<K: PartialOrd, V> Tree<K, V> {
+    fn new() -> Tree<K, V> {
+        Tree {
+            root: None
+        }
+    }
+
+    fn init(key: K, value: V) -> Tree<K, V> {
+        Tree {
+            root: Some(Node::new(key, value))
+        }
+    }
+}
+
+impl<K: PartialOrd, V> BinaryTree<K, V> for Tree<K, V> {
+    fn get<'a>(&'a self, key: K) -> Option<&'a V> {
+        match &self.root {
+            Some(node) => node.get(key),
+            None => None
+        }
+    }
+    fn contains(&self, key: K) -> bool {
+        match &self.root {
+            Some(node) => node.contains(key),
+            None => false
+        }
+    }
+    fn insert(&mut self, key: K, value: V) -> Option<V> {
+        match &mut self.root {
+            Some(node) => node.insert(key, value),
+            None => {
+                self.root = Some(Node::new(key, value));
+                None
+            }
+        }
+    }
+    fn delete(&mut self, key: K) -> Option<V> {
+        match &mut self.root {
+            Some(node) => node.delete(key),
+            None => None
         }
     }
     fn is_empty(&self) -> bool {
-        if self.key == key {
-
+        match &self.root {
+            Some(node) => node.is_empty(),
+            None => false
         }
     }
     /** 先(前)序遍历，根左右 */
     fn iterate_first_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
-        if self.key == key {
 
-        }
     }
     /** 中序遍历，左根右 */
     fn iterate_middle_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
-        if self.key == key {
 
-        }
     }
     /** 后序遍历，左右根 */
     fn iterate_last_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
-        if self.key == key {
 
-        }
     }
     /** 按层次遍历 */
     fn iterate_layer_mut(&mut self, runner: &dyn Fn(K, &mut V)) {
-        if self.key == key {
 
-        }
     }
 }
 
-struct SimpleBinarySearchTree<K, V> {
-    root: Option<SimpleBinarySearchTreeNode<K, V>>
-}
-
 fn main() {
+    let mut tree: Tree<i32, String> = Tree::new();
+
+    tree.insert(2, String::from("The Second string"));
+    tree.insert(1, String::from("The First string"));
+    tree.insert(3, String::from("The Third string"));
+
+    for i in 1 .. 10 {
+        println!("The str {} is: {:?}", i, tree.get(i));
+    }
     println!("Hello, world!");
 }
