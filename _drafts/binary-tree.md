@@ -74,7 +74,7 @@ trait BinaryTree<K, V> {
     fn get<'a>(&'a self, key: K) -> Option<&'a V>;
     fn contains(&self, key: K) -> bool;
     fn insert(&mut self, key: K, value: V) -> Option<V>;
-    fn delete(&mut self, key: K) -> Option<V>;
+    fn delete(&mut self, key: &K) -> Option<V>;
     fn is_empty(&self) -> bool;
     /** 先(前)序遍历，根左右 */
     fn iterate_first_mut(&mut self, runner: &dyn Fn(K, &mut V));
@@ -108,8 +108,15 @@ trait BinaryTree<K, V> {
 3. 若不存在，记录最后寻找的节点，比他大放左边，比他小放右边
 
 **搜索**：
+1. 若搜索值与当前节点相同，则返回当前节点
+2. 若搜索值比当前值小，尝试搜索左节点；若比当前值大，尝试搜索右节点
+3. 若被搜索节点不存在，则返回无结果
 
 **删除**：
+1. 搜索被删节点
+2. 若被删节点没有左右子树，直接让改节点指向空
+3. 若含有一棵子树，将子树替换到被删位置；
+4. 若含有两子树，将左子树最右节点，或右子树最左节点删除，并替换到当前被删节点位置
 
 **前序遍历**：
 
@@ -120,7 +127,7 @@ trait BinaryTree<K, V> {
 
 ### 代码实现
 
-## 堆
+## AVL 树
 
 # 操作
 
